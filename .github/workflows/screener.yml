@@ -1,0 +1,21 @@
+name: 보합+박스장 돌파매매 스크리너
+
+on:
+  schedule:
+    - cron: '10 7 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  run-screener:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests pandas beautifulsoup4
+      - name: 스크리너 실행
+        env:
+          TG_TOKEN: ${{ secrets.TG_TOKEN }}
+          TG_CHAT: ${{ secrets.TG_CHAT }}
+        run: python boxbreak_screener.py
