@@ -2,18 +2,24 @@ name: 보합+박스장 돌파매매 스크리너
 
 on:
   schedule:
-    - cron: '10 7 * * 1-5'
-  workflow_dispatch:
+    - cron: '10 7 * * 1-5'   # 평일 16:10 KST (= 07:10 UTC)
+  workflow_dispatch:           # 버튼 눌러서 수동 실행도 가능
 
 jobs:
   run-screener:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: 코드 가져오기
+        uses: actions/checkout@v4
+
+      - name: Python 설정
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: pip install requests pandas beautifulsoup4
+
+      - name: 패키지 설치
+        run: pip install requests pandas beautifulsoup4
+
       - name: 스크리너 실행
         env:
           TG_TOKEN: ${{ secrets.TG_TOKEN }}
