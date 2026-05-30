@@ -1,0 +1,21 @@
+name: JB_상승장 스크리너
+
+on:
+  schedule:
+    - cron: '10 7 * * 1-5'   # 평일 16:10 KST (= 07:10 UTC)
+  workflow_dispatch:
+
+jobs:
+  run-screener:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - name: 실행
+        env:
+          TG_TOKEN: ${{ secrets.TG_TOKEN }}
+          TG_CHAT: ${{ secrets.TG_CHAT }}
+        run: python jb_bullmarket.py
